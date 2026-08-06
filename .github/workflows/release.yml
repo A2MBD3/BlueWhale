@@ -4,8 +4,10 @@ on:
   push:
     paths:
       - 'module/**'
+      - '.github/workflows/**'
     branches:
       - main
+  workflow_dispatch:  # ← ম্যানুয়াল ট্রিগার
 
 jobs:
   release:
@@ -26,7 +28,7 @@ jobs:
         VERSION_CODE=$(grep 'versionCode=' module/module.prop | cut -d'=' -f2)
         echo "version=$VERSION" >> $GITHUB_OUTPUT
         echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
-        echo "📱 Version: $VERSION ($VERSION_CODE)"
+        echo "Version: $VERSION ($VERSION_CODE)"
     
     - name: Build ZIP
       run: |
@@ -34,21 +36,18 @@ jobs:
         zip -r9 ../BlueWhale-${{ steps.version.outputs.version }}.zip .
         cd ..
         ls -lh BlueWhale-${{ steps.version.outputs.version }}.zip
-        echo "📦 ZIP created"
     
-    - name: Create/Update Tag
+    - name: Create Tag
       run: |
         git config user.name "github-actions"
         git config user.email "actions@github.com"
         TAG="${{ steps.version.outputs.version }}"
         git tag -f $TAG
         git push origin $TAG --force
-        echo "🏷️ Tag: $TAG"
     
     - name: Delete Old Release
       run: |
         gh release delete ${{ steps.version.outputs.version }} --yes 2>/dev/null || true
-        echo "🗑️ Old release deleted"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
@@ -61,21 +60,16 @@ jobs:
         body: |
           ## 🐋 Blue Whale ${{ steps.version.outputs.version }}
           
-          ### Auto-generated Release
           - **Version:** ${{ steps.version.outputs.version }}
           - **Version Code:** ${{ steps.version.outputs.version_code }}
-          - **Commit:** ${{ github.sha }}
           
           ### Installation
-          1. Download ZIP
-          2. Install via Magisk/KSU/APatch
-          3. Reboot
-          4. Open WebUI from module
+          1. Download ZIP → Install via Magisk/KSU
+          2. Reboot
+          3. Open WebUI
           
           ### Developer
           [@A2MBD3](https://t.me/A2MBD3)
-        draft: false
-        prerelease: false
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
@@ -89,13 +83,9 @@ jobs:
             "changelog": "https://raw.githubusercontent.com/${{ github.repository }}/main/CHANGELOG.md"
         }
         EOF
-        echo "📝 update.json created"
     
     - name: Commit update.json
       run: |
-        git config user.name "github-actions"
-        git config user.email "actions@github.com"
         git add update.json
-        git commit -m "🔄 Auto-update to ${{ steps.version.outputs.version }}" || true
+        git commit -m "Update to ${{ steps.version.outputs.version }}" || true
         git push origin main
-        echo "🚀 update.json pushed"

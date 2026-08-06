@@ -28,50 +28,12 @@ jobs:
         echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
         echo "📱 Version: $VERSION ($VERSION_CODE)"
     
-    - name: Get Module List
-      id: modules
-      run: |
-        echo "📦 Detecting modules..."
-        MODULE_LIST=""
-        if [ -d "module/system/bin/modules" ]; then
-          for module in module/system/bin/modules/*.sh; do
-            if [ -f "$module" ] && [ "$(basename $module)" != "module_loader.sh" ]; then
-              name=$(basename "$module" .sh | sed 's/_/ /g' | sed 's/\b\(.\)/\u\1/g')
-              MODULE_LIST="${MODULE_LIST}- ✅ ${name}\n"
-              echo "  ✓ $name"
-            fi
-          done
-        fi
-        
-        if [ -z "$MODULE_LIST" ]; then
-          MODULE_LIST="- No modules found\n"
-        fi
-        
-        echo "modules<<EOF" >> $GITHUB_OUTPUT
-        echo -e "$MODULE_LIST" >> $GITHUB_OUTPUT
-        echo "EOF" >> $GITHUB_OUTPUT
-        echo "✅ Module list generated"
-    
-    - name: Get Changelog
-      id: changelog
-      continue-on-error: true
-      run: |
-        if [ -f "CHANGELOG.md" ]; then
-          echo "✅ Changelog found"
-          echo "changelog<<EOF" >> $GITHUB_OUTPUT
-          cat CHANGELOG.md >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-          echo "✅ Changelog loaded"
-        else
-          echo "⚠️ No CHANGELOG.md found, skipping..."
-          echo "changelog=No changelog provided" >> $GITHUB_OUTPUT
-        fi
-    
     - name: Build ZIP
       run: |
         cd module
         zip -r9 ../BlueWhale-${{ steps.version.outputs.version }}.zip .
         cd ..
+        ls -lh BlueWhale-${{ steps.version.outputs.version }}.zip
         echo "📦 ZIP created"
     
     - name: Create/Update Tag
@@ -99,25 +61,19 @@ jobs:
         body: |
           ## 🐋 Blue Whale ${{ steps.version.outputs.version }}
           
-          ### 🔄 Auto-generated Release
+          ### Auto-generated Release
           - **Version:** ${{ steps.version.outputs.version }}
           - **Version Code:** ${{ steps.version.outputs.version_code }}
           - **Commit:** ${{ github.sha }}
           
-          ### 📦 Modules Included
-          ${{ steps.modules.outputs.modules }}
+          ### Installation
+          1. Download ZIP
+          2. Install via Magisk/KSU/APatch
+          3. Reboot
+          4. Open WebUI from module
           
-          ### 📥 Installation
-          1. Download the ZIP file
-          2. Install via Magisk/KernelSU/Kitsune Mask
-          3. Reboot your device
-          4. Open WebUI from your root manager
-          
-          ### 📝 Changelog
-          ${{ steps.changelog.outputs.changelog || 'No changelog provided' }}
-          
-          ### 👨‍💻 Developer
-          Abdullah Al Mamun 🇧🇩 [@A2MBD3](https://t.me/A2MBD3)
+          ### Developer
+          [@A2MBD3](https://t.me/A2MBD3)
         draft: false
         prerelease: false
       env:
@@ -133,7 +89,7 @@ jobs:
             "changelog": "https://raw.githubusercontent.com/${{ github.repository }}/main/CHANGELOG.md"
         }
         EOF
-        echo "📝 update.json updated"
+        echo "📝 update.json created"
     
     - name: Commit update.json
       run: |

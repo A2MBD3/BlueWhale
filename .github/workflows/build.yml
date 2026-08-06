@@ -1,0 +1,145 @@
+name: Build & Release
+
+on:
+  push:
+    paths:
+      - 'module/**'
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Get Version
+      id: version
+      run: |
+        VERSION=$(grep 'version=' module/module.prop | cut -d'=' -f2)
+        VERSION_CODE=$(grep 'versionCode=' module/module.prop | cut -d'=' -f2)
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
+        echo "📱 Version: $VERSION ($VERSION_CODE)"
+    
+    - name: Get Module List
+      id: modules
+      run: |
+        echo "📦 Detecting modules..."
+        MODULE_LIST=""
+        if [ -d "module/system/bin/modules" ]; then
+          for module in module/system/bin/modules/*.sh; do
+            if [ -f "$module" ] && [ "$(basename $module)" != "module_loader.sh" ]; then
+              name=$(basename "$module" .sh | sed 's/_/ /g' | sed 's/\b\(.\)/\u\1/g')
+              MODULE_LIST="${MODULE_LIST}- ✅ ${name}\n"
+              echo "  ✓ $name"
+            fi
+          done
+        fi
+        
+        if [ -z "$MODULE_LIST" ]; then
+          MODULE_LIST="- No modules found\n"
+        fi
+        
+        echo "modules<<EOF" >> $GITHUB_OUTPUT
+        echo -e "$MODULE_LIST" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+        echo "✅ Module list generated"
+    
+    - name: Get Changelog
+      id: changelog
+      continue-on-error: true
+      run: |
+        if [ -f "CHANGELOG.md" ]; then
+          echo "✅ Changelog found"
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          cat CHANGELOG.md >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          echo "✅ Changelog loaded"
+        else
+          echo "⚠️ No CHANGELOG.md found, skipping..."
+          echo "changelog=No changelog provided" >> $GITHUB_OUTPUT
+        fi
+    
+    - name: Build ZIP
+      run: |
+        cd module
+        zip -r9 ../RealmeUI-Tweaks-${{ steps.version.outputs.version }}.zip .
+        cd ..
+        echo "📦 ZIP created"
+    
+    - name: Create/Update Tag
+      run: |
+        git config user.name "github-actions"
+        git config user.email "actions@github.com"
+        TAG="${{ steps.version.outputs.version }}"
+        git tag -f $TAG
+        git push origin $TAG --force
+        echo "🏷️ Tag: $TAG"
+    
+    - name: Delete Old Release
+      run: |
+        gh release delete ${{ steps.version.outputs.version }} --yes 2>/dev/null || true
+        echo "🗑️ Old release deleted"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Create Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ steps.version.outputs.version }}
+        name: Realme UI Tweaks ${{ steps.version.outputs.version }}
+        files: RealmeUI-Tweaks-${{ steps.version.outputs.version }}.zip
+        body: |
+          ## 🐋 Blue Whale ${{ steps.version.outputs.version }}
+          
+          ### 🔄 Auto-generated Release
+          - **Version:** ${{ steps.version.outputs.version }}
+          - **Version Code:** ${{ steps.version.outputs.version_code }}
+          - **Commit:** ${{ github.sha }}
+          
+          ### 📦 Modules Included
+          ${{ steps.modules.outputs.modules }}
+          
+          ### 📥 Installation
+          1. Download the ZIP file
+          2. Install via Magisk/KernelSU/Kitsune Mask
+          3. Reboot your device
+          4. Open WebUI from your root manager
+          
+          ### 📝 Changelog
+          ${{ steps.changelog.outputs.changelog || 'No changelog provided' }}
+          
+          ### 👨‍💻 Developer
+          Abdullah Al Mamun 🇧🇩 [@A2MBD3](https://t.me/A2MBD3)
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Update update.json
+      run: |
+        cat > update.json << EOF
+        {
+            "version": "${{ steps.version.outputs.version }}",
+            "versionCode": ${{ steps.version.outputs.version_code }},
+            "zipUrl": "https://github.com/${{ github.repository }}/releases/download/${{ steps.version.outputs.version }}/RealmeUI-Tweaks-${{ steps.version.outputs.version }}.zip",
+            "changelog": "https://raw.githubusercontent.com/${{ github.repository }}/main/CHANGELOG.md"
+        }
+        EOF
+        echo "📝 update.json updated"
+    
+    - name: Commit update.json
+      run: |
+        git config user.name "github-actions"
+        git config user.email "actions@github.com"
+        git add update.json
+        git commit -m "🔄 Auto-update to ${{ steps.version.outputs.version }}" || true
+        git push origin main
+        echo "🚀 update.json pushed"

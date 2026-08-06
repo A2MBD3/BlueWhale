@@ -1,12 +1,12 @@
 # 🐋 Blue Whale 🐋
 
-[![Build Status](https://github.com/A2MBD3/RealmeUI-Tweaks/actions/workflows/build.yml/badge.svg)](https://github.com/A2MBD3/RealmeUI-Tweaks/actions/workflows/build.yml)
-[![Latest Release](https://img.shields.io/github/v/release/A2MBD3/RealmeUI-Tweaks)](https://github.com/A2MBD3/RealmeUI-Tweaks/releases/latest)
-[![Downloads](https://img.shields.io/github/downloads/A2MBD3/RealmeUI-Tweaks/total)](https://github.com/A2MBD3/RealmeUI-Tweaks/releases)
+[![Build Status](https://github.com/A2MBD3/BlueWhale/actions/workflows/build.yml/badge.svg)](https://github.com/A2MBD3/BlueWhale/actions/workflows/build.yml)
+[![Latest Release](https://img.shields.io/github/v/release/A2MBD3/BlueWhale)](https://github.com/A2MBD3/BlueWhale/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/A2MBD3/BlueWhale/total)](https://github.com/A2MBD3/BlueWhale/releases)
 
 ## 📦 Installation
 
-1. Download from [Releases](https://github.com/A2MBD3/RealmeUI-Tweaks/releases)
+1. Download from [Releases](https://github.com/A2MBD3/BlueWhale/releases)
 2. Install via Magisk/KernelSU/Kitsune Mask
 3. Reboot your device
 4. Open WebUI from your root manager
@@ -21,7 +21,10 @@
 
 **Abdullah Al Mamun (@A2MBD3)**
 - GitHub: [@A2MBD3](https://github.com/A2MBD3)
+- ** Alamin **
+- GitHub: [@INGRANDED](https://github.com/INGRANDED)
 
 ## 📝 License
 
 - Personal
+- No copy allowed 

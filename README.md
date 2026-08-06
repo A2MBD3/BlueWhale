@@ -1,22 +1,8 @@
-# Realme UI Tweaks
+# 🐋 Blue Whale 🐋
 
 [![Build Status](https://github.com/A2MBD3/RealmeUI-Tweaks/actions/workflows/build.yml/badge.svg)](https://github.com/A2MBD3/RealmeUI-Tweaks/actions/workflows/build.yml)
 [![Latest Release](https://img.shields.io/github/v/release/A2MBD3/RealmeUI-Tweaks)](https://github.com/A2MBD3/RealmeUI-Tweaks/releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/A2MBD3/RealmeUI-Tweaks/total)](https://github.com/A2MBD3/RealmeUI-Tweaks/releases)
-
-> Advanced tweaks for Realme/ColorOS devices - Modular system
-
-## 📱 Features
-
-### ✅ App Cloner
-- Fix Oppo MultiApp permission issues
-- Whitelist all apps for cloning
-- Auto-repair on boot
-
-### 🔜 Coming Soon
-- Zoom Window
-- Game Space Enhance
-- System Optimizer
 
 ## 📦 Installation
 
@@ -31,14 +17,6 @@
 - **KernelSU**: Open from Modules tab
 - **Kitsune Mask**: Open from Modules tab
 
-## 🛠️ Development
-
-### Adding New Modules
-1. Create `system/bin/modules/your_module.sh`
-2. Add WebUI card in `webroot/index.html`
-3. Update `CHANGELOG.md`
-4. Push changes - GitHub Actions will auto-build
-
 ## 👨‍💻 Author
 
 **Abdullah Al Mamun (@A2MBD3)**
@@ -46,4 +24,4 @@
 
 ## 📝 License
 
-Personal
+- Personal

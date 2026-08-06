@@ -70,7 +70,7 @@ jobs:
     - name: Build ZIP
       run: |
         cd module
-        zip -r9 ../RealmeUI-Tweaks-${{ steps.version.outputs.version }}.zip .
+        zip -r9 ../BlueWhale-${{ steps.version.outputs.version }}.zip .
         cd ..
         echo "📦 ZIP created"
     
@@ -94,8 +94,8 @@ jobs:
       uses: softprops/action-gh-release@v2
       with:
         tag_name: ${{ steps.version.outputs.version }}
-        name: Realme UI Tweaks ${{ steps.version.outputs.version }}
-        files: RealmeUI-Tweaks-${{ steps.version.outputs.version }}.zip
+        name: BlueWhale ${{ steps.version.outputs.version }}
+        files: BlueWhale-${{ steps.version.outputs.version }}.zip
         body: |
           ## 🐋 Blue Whale ${{ steps.version.outputs.version }}
           
@@ -129,7 +129,7 @@ jobs:
         {
             "version": "${{ steps.version.outputs.version }}",
             "versionCode": ${{ steps.version.outputs.version_code }},
-            "zipUrl": "https://github.com/${{ github.repository }}/releases/download/${{ steps.version.outputs.version }}/RealmeUI-Tweaks-${{ steps.version.outputs.version }}.zip",
+            "zipUrl": "https://github.com/${{ github.repository }}/releases/download/${{ steps.version.outputs.version }}/BlueWhale-${{ steps.version.outputs.version }}.zip",
             "changelog": "https://raw.githubusercontent.com/${{ github.repository }}/main/CHANGELOG.md"
         }
         EOF

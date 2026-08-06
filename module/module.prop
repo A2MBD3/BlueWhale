@@ -1,7 +1,7 @@
 id=bluewhale
 name=Blue Whale 🐋
-version=v2.0
-versionCode=20
+version=v2.2
+versionCode=202
 author=Abdullah Al Mamun (@A2MBD3) + Alamin
 description=System-level Dolphin proxy with WebUI. Auto boot. Self-healing. No dependencies.
 updateJson=https://raw.githubusercontent.com/A2MBD3/BlueWhale/main/update.json

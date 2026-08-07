@@ -1,7 +1,7 @@
-# Changelog v1.0
+# Changelog V3.5
 
 ### Added
-- ✅ App Cloner module - Fix Oppo MultiApp permissions
+- ✅ Dolphin Internal 
 
 ### Coming Soon
 - Rapid Core 

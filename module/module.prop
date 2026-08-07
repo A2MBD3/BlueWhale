@@ -1,6 +1,6 @@
 id=@hqcrx_bluewhale
-version=v2.0.4
-versionCode=204
+version=v2.0.5
+versionCode=205
 author=Abdullah Al Mamun (@A2MBD3) + Alamin
 description=You can bypass login of an app without touching code. 
 updateJson=https://raw.githubusercontent.com/A2MBD3/BlueWhale/main/update.json

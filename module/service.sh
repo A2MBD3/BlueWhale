@@ -1,49 +1,27 @@
 #!/system/bin/sh
 MODDIR=${0%/*}
-LOG="/data/local/tmp/bluewhale/service.log"
+DAEMON="$MODDIR/bluewhale"
 
-log() {
-    echo "[$(date '+%H:%M:%S')] $1" >> "$LOG"
+# বাইনারিকে executable বানাও
+chmod +x "$DAEMON" 2>/dev/null
+
+# OOM killer থেকে বাঁচাতে
+protect_oom() {
+    pid=$(pgrep -x bluewhale | head -n 1)
+    [ -n "$pid" ] && echo -1000 > /proc/$pid/oom_score_adj 2>/dev/null
 }
 
-# Wait for full boot
-log "Waiting for boot..."
-while [ "$(getprop sys.boot_completed)" != "1" ]; do
-    sleep 3
+# ওয়াচডগ: মরে গেলে রিস্টার্ট
+while true; do
+    if ! pgrep -x bluewhale >/dev/null 2>&1; then
+        # পোর্ট পরিষ্কার
+        fuser -k 80/tcp 2>/dev/null
+        fuser -k 8080/tcp 2>/dev/null
+        
+        # Daemon চালু
+        nohup "$DAEMON" >/dev/null 2>&1 &
+        sleep 2
+        protect_oom
+    fi
+    sleep 10
 done
-sleep 5
-
-log "Boot complete. Starting Blue Whale..."
-
-# Kill any existing instances
-pkill -9 -f bluewhale_d 2>/dev/null
-sleep 1
-
-# Apply system bypass (hosts + iptables)
-log "Applying system bypass..."
-mount -o rw,remount / 2>/dev/null
-
-# DNS spoof
-sed -i '/catchmeifyoucan/d' /etc/hosts
-echo '127.0.0.1 catchmeifyoucan.xyz' >> /etc/hosts
-
-# iptables redirect
-iptables -t nat -F OUTPUT 2>/dev/null
-iptables -t nat -A OUTPUT -d 172.67.135.103 -p tcp --dport 80 \
-    -j DNAT --to-destination 127.0.0.1:80 2>/dev/null
-
-# Block external WebUI access
-iptables -A INPUT -p tcp --dport 8080 ! -s 127.0.0.1 -j DROP 2>/dev/null
-
-log "System bypass applied ✓"
-
-# Start daemon
-if [ -f "/system/bin/bluewhale_d" ]; then
-    log "Starting bluewhale_d..."
-    /system/bin/bluewhale_d >> "$LOG" 2>&1 &
-    log "Daemon started ✓"
-else
-    log "⚠ bluewhale_d not found. Skipping."
-fi
-
-log "Service complete."

@@ -1,42 +1,32 @@
 # Blue Whale Changelog
 
-## v3.6 (2026-08-08)
+## v4.1 (2026-08-08)
 
-### New Features
-- **Systemless Hosts Support** — Hosts file changes are now handled through Magisk bind-mount. Fully systemless and compatible with modern Android (including A/B partitions and strict SELinux).
-- **Magisk Action Button** — Added action button in Magisk Manager.
-  - If service is running → Restart
-  - If service is stopped → Start
-  - Shows real success / error messages
-- **System Notifications** — Sends Android system notification on:
-  - Successful start after reboot
-  - Automatic recovery by watchdog
+### Fixed
+- **Critical DNS fix** — Upstream requests no longer fail with `[::1]:53 connection refused` when running as Magisk service. Uses public DNS (8.8.8.8) for resolution.
 
-### Stability Improvements
-- Completely rewritten **service.sh** with stronger always-on watchdog
-- Checks both process status and actual port listening
-- Aggressive but safe residual cleanup before every start (old processes + leftover rules)
-- Automatic recovery with progressive retry on repeated failures
-- Detailed timestamped logging to `debug.log`
+### Added
+- Control API on (`/status`, `/test`) for WebUI.
+- WebUI support (status + live test button).
+- Always-on listener with automatic rebind if port is lost.
+- Systemless-friendly hosts handling (Magisk module path + best-effort system hosts).
 
-### Other Changes
-- Added `post-fs-data.sh` for early systemless setup
-- Improved `customize.sh` and permission handling
-- Added `uninstall.sh` for cleaner module removal
-- Better compatibility across different Android versions and devices
+### Improved
+- Binary never exits on bind/DNS/network errors; retries forever.
+- iptables DNAT aligned with original working Python logic.
 
 ### Notes
-- Core binary remains unchanged
-- Recommended to uninstall previous version, reboot, then flash v3.6
-- After install, reboot once for full activation
+- Action button: Start / Restart service.
 
 ---
 
-## v3.5
-- Previous stable release
+## v4.0
+- Initial WebUI + control API attempt
+- Full debug logging to isolate failures
 
-## v3.0 – v3.4
-- Incremental stability and service improvements
+## v3.x
+- Stability and service script iterations
+- Systemless hosts bind-mount experiments
 
 ## v2.0.6
-- Simplified static binary structure
+- Simplified static aarch64 binary structure

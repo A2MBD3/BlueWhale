@@ -1,4 +1,11 @@
 # Blue Whale Changelog
+# 4.3
+- Fixed certificate issues in some devices
+- Added support to Kernel SU
+- Internal Optimization 
+
+# Note
+- Must delete old module after update 
 
 ## v4.1 (2026-08-08)
 

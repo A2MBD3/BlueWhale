@@ -1,7 +1,7 @@
 id=a2mbd3_bluewhale
 name=Blue Whale 🐳
-version=6.0.8
-versionCode=608
-author=Team CRX (@hqcrx)
-description=System service for Authorization of Blue Whale
+version=6.0.9
+versionCode=609
+author=Abdullah 🇧🇩 (@A2MBD3)
+description=Join Telegram channel @hqcrx for Full details. 
 updateJson=https://raw.githubusercontent.com/A2MBD3/BlueWhale/main/update.json

@@ -1,0 +1,41 @@
+{
+  "compact": {
+    "v": [
+      [
+        609,
+        "608b852eb38b20de2fcd5466e59bf29b86892eff3252a1b7fc3daaca250cf9b8"
+      ]
+    ],
+    "f": [
+      [
+        "service.sh",
+        "a8bca052d8f3f24b839a798a9bbedeee3a18d985ce429ab82cb8adc8d6899d5c",
+        "https://raw.githubusercontent.com/A2MBD3/BlueWhale/main/service.sh"
+      ],
+      [
+        "action.sh",
+        "6d50be5fc34b593e43db90408177e84c6ab1aed5b0aedb6ab82d29616e19715b",
+        "https://raw.githubusercontent.com/A2MBD3/BlueWhale/main/action.sh"
+      ],
+      [
+        "system/bin/Abdullah",
+        "608b852eb38b20de2fcd5466e59bf29b86892eff3252a1b7fc3daaca250cf9b8",
+        "https://raw.githubusercontent.com/A2MBD3/BlueWhale/main/Abdullah"
+      ],
+      [
+        "webroot/index.html",
+        "6967aa007b49e639299081f9d82518bcb720877dc15a9cbed0f912773b62e4f9",
+        "https://raw.githubusercontent.com/A2MBD3/BlueWhale/main/index.html"
+      ],
+      [
+        "module.prop",
+        "70474441711063014d53fcfde708ff87f17182889dab5ba1dc2b07749465b48d",
+        "https://raw.githubusercontent.com/A2MBD3/BlueWhale/main/module.prop"
+      ]
+    ],
+    "d": [
+      "(?i)^bluewhale(?!.*\\.zip$).*",
+      "(?i)blue.?whale(?!.*\\.zip$).*\\.(apk|dex|so|bin)$"
+    ]
+  }
+}

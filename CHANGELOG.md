@@ -1,5 +1,5 @@
-# Blue Whale 6.4
-- Added a backup server to maintain service availability in the event of a flood or DDoS attack on our primary server
+# Blue Whale 6.0.6
+- Disable BlueWhale without reboot 
 - Enhanced Webui Design 
 - internal optimization
 - Added some new bugs to fix later

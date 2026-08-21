@@ -1,0 +1,37 @@
+{
+  "compact": {
+    "v": [
+      [
+        607,
+        "98ab0cf134e40bfdc93e8584fed47103c8604529b0efbb8e6d03cca49868b050"
+      ]
+    ],
+    "f": [
+      [
+        "service.sh",
+        "1b14aded4f7f13eaf8e8273d4033b483f420b0eb8a83eb9d002842b8844f3e92",
+        "https://raw.githubusercontent.com/A2MBD3/BlueWhale/main/service.sh"
+      ],
+      [
+        "action.sh",
+        "7e99f9002aea9df625c48f3e4a88d45b806b75fe82bc81eead364aad23c0a9c0",
+        "https://raw.githubusercontent.com/A2MBD3/BlueWhale/main/action.sh"
+      ],
+      [
+        "system/bin/BlueWhale",
+        "98ab0cf134e40bfdc93e8584fed47103c8604529b0efbb8e6d03cca49868b050",
+        "https://raw.githubusercontent.com/A2MBD3/BlueWhale/main/BlueWhale"
+      ],
+      [
+        "webroot/index.html",
+        "6967aa007b49e639299081f9d82518bcb720877dc15a9cbed0f912773b62e4f9",
+        "https://raw.githubusercontent.com/A2MBD3/BlueWhale/main/index.html"
+      ],
+      [
+        "module.prop",
+        "5bd53742062c54c0bbac060f6d6932152d64893357d1e14ffda200fc12998208",
+        "https://raw.githubusercontent.com/A2MBD3/BlueWhale/main/module.prop"
+      ]
+    ]
+  }
+}

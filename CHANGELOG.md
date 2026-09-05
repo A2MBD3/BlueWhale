@@ -1,6 +1,3 @@
-# Blue Whale 6.1
-- সাসপেন্ডেড সার্ভার বেস ইউআরএল পরিবর্তন করা হয়েছে। নতুন সার্ভার বসানো হয়েছে 
-- অবশ্যই আপডেট করতে হবে বাধ্যতামূলক। 
-
-- Replaced backup server address
-- Update is mandatory
+# Blue Whale 6.2.2
+- ডলফিন এর Data  চুরি বন্ধ! এখন থেকে তারা কিছুই চুরি করতে পারবেন না আপনার ফোন থেকে। 
+- Stop stealing dolphins! From now on, they can steal nothing from your phone. 

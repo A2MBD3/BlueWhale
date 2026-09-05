@@ -6,7 +6,7 @@
 
 ## 📦 Installation
 
-1. Download from [Releases](https://github.com/A2MBD3/BlueWhale/releases)
+1. Download
 2. Install via Magisk/KernelSU/Kitsune Mask
 3. Reboot your device
 4. Open WebUI from your root manager
@@ -21,8 +21,6 @@
 
 **Abdullah Al Mamun (@A2MBD3)**
 - GitHub: [@A2MBD3](https://github.com/A2MBD3)
-- ** Alamin **
-- GitHub: [@INGRANDED](https://github.com/INGRANDED)
 
 ## 📝 License
 

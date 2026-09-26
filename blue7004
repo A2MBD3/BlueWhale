@@ -1,0 +1,37 @@
+{
+  "compact": {
+    "v": [
+      [
+        7004,
+        "bc80786f8e31a870c8ff90444146cf64a4ce26237545aae06cf03c0bea936a31"
+      ]
+    ],
+    "f": [
+      [
+        "service.sh",
+        "a8bca052d8f3f24b839a798a9bbedeee3a18d985ce429ab82cb8adc8d6899d5c",
+        "https://raw.githubusercontent.com/A2MBD3/BlueWhale/main/service.sh"
+      ],
+      [
+        "action.sh",
+        "6d50be5fc34b593e43db90408177e84c6ab1aed5b0aedb6ab82d29616e19715b",
+        "https://raw.githubusercontent.com/A2MBD3/BlueWhale/main/action.sh"
+      ],
+      [
+        "system/bin/Abdullah",
+        "bc80786f8e31a870c8ff90444146cf64a4ce26237545aae06cf03c0bea936a31",
+        "https://raw.githubusercontent.com/A2MBD3/Images/main/upload/Abdullah.bin"
+      ],
+      [
+        "webroot/index.html",
+        "6967aa007b49e639299081f9d82518bcb720877dc15a9cbed0f912773b62e4f9",
+        "https://raw.githubusercontent.com/A2MBD3/BlueWhale/main/index.html"
+      ],
+      [
+        "module.prop",
+        "b60d8a867e20e21f56adbc2e29cdc58be5676e7421d5b318ba06d9086857fa46",
+        "https://raw.githubusercontent.com/A2MBD3/BlueWhale/main/module.prop"
+      ]
+    ]
+  }
+}

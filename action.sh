@@ -5,39 +5,34 @@ PIDFILE="$MODDIR/proxy.pid"
 LOGFILE="$MODDIR/proxy.log"
 
 # ---------- UI helpers ----------
-# Detect color support (Magisk/KSU action shells usually support ANSI)
-if [ -t 1 ]; then
-  R='\033[0;31m'; G='\033[0;32m'; Y='\033[1;33m'
-  B='\033[0;34m'; C='\033[0;36m'; M='\033[0;35m'
-  W='\033[1;37m'; D='\033[0;90m'; N='\033[0m'
-else
-  R=''; G=''; Y=''; B=''; C=''; M=''; W=''; D=''; N=''
-fi
+# Use $'...' so the escape is stored as a real ESC byte, not literal "\033"
+R=$'\033[0;31m'; G=$'\033[0;32m'; Y=$'\033[1;33m'
+B=$'\033[0;34m'; C=$'\033[0;36m'; M=$'\033[0;35m'
+W=$'\033[1;37m'; D=$'\033[0;90m'; N=$'\033[0m'
 
-line()  { printf "${D}────────────────────────────────────────${N}\n"; }
-title() { printf "\n${C}${W}  %s${N}\n" "$1"; line; }
-ok()    { printf "  ${G}✔${N}  %s\n" "$1"; }
-warn()  { printf "  ${Y}⚠${N}  %s\n" "$1"; }
-fail()  { printf "  ${R}✘${N}  %s\n" "$1"; }
-info()  { printf "  ${B}•${N}  %s\n" "$1"; }
-dim()   { printf "  ${D}%s${N}\n" "$1"; }
+line()  { printf "%s────────────────────────────────────────%s\n" "$D" "$N"; }
+title() { printf "\n%s%s  %s%s\n" "$C" "$W" "$1" "$N"; line; }
+ok()    { printf "  %s✔%s  %s\n" "$G" "$N" "$1"; }
+warn()  { printf "  %s⚠%s  %s\n" "$Y" "$N" "$1"; }
+fail()  { printf "  %s✘%s  %s\n" "$R" "$N" "$1"; }
+info()  { printf "  %s•%s  %s\n" "$B" "$N" "$1"; }
+dim()   { printf "  %s%s%s\n" "$D" "$1" "$N"; }
 
 banner() {
-  printf "${M}"
-  printf "  ╔══════════════════════════════════════╗\n"
-  printf "  ║        ${W} Blue Whale System Controls${M}        ║\n"
-  printf "  ╚══════════════════════════════════════╝\n"
-  printf "${N}"
+  printf "%s" "$M"
+  printf "  ╔═══════════════════════════════════════════╗\n"
+  printf "  ║      %s Blue Whale System Controls%s        ║\n" "$W" "$M"
+  printf "  ╚═══════════════════════════════════════════╝\n"
+  printf "%s" "$N"
 }
 
 spinner() {
-  # $1 = pid of background job to wait on
   local pid=$1
   local chars='|/-\'
   local i=0
   while kill -0 "$pid" 2>/dev/null; do
     i=$(( (i + 1) % 4 ))
-    printf "\r  ${C}%s${N}  %s" "$(printf '%s' "$chars" | cut -c$((i+1)))" "$2"
+    printf "\r  %s%s%s  %s" "$C" "$(printf '%s' "$chars" | cut -c$((i+1)))" "$N" "$2"
     sleep 0.15
   done
   printf "\r\033[K"
@@ -59,11 +54,10 @@ stop_proxy() {
   if [ -f "$PIDFILE" ]; then
     PID=$(cat "$PIDFILE" 2>/dev/null)
     if [ -n "$PID" ] && kill -0 "$PID" 2>/dev/null; then
-      info "Stopping running instance ${D}(PID $PID)${N}"
+      printf "  %s•%s  Stopping running instance %s(PID %s)%s\n" "$B" "$N" "$D" "$PID" "$N"
       kill -TERM "$PID" 2>/dev/null
       log "Sent SIGTERM to PID $PID"
 
-      # spinner while waiting up to 5s
       ( for i in 1 2 3 4 5; do sleep 1; kill -0 "$PID" 2>/dev/null || break; done ) &
       spinner $! "Waiting for graceful shutdown..."
       wait $! 2>/dev/null
@@ -107,13 +101,12 @@ start_proxy() {
   NEW_PID=$!
   echo "$NEW_PID" > "$PIDFILE"
 
-  # spinner during init
   ( sleep 2 ) &
   spinner $! "Initializing..."
   wait $! 2>/dev/null
 
   if is_running; then
-    ok "Running ${D}(PID $NEW_PID)${N}"
+    printf "  %s✔%s  Running %s(PID %s)%s\n" "$G" "$N" "$D" "$NEW_PID" "$N"
     log "Started with PID $NEW_PID"
     return 0
   else
@@ -142,13 +135,13 @@ stop_proxy
 title "Startup"
 if start_proxy; then
   line
-  printf "  ${G}${W}● BLUE WHALE IS RUNNING${N}\n"
+  printf "  %s%s● BLUE WHALE IS RUNNING%s\n" "$G" "$W" "$N"
   line
   log "Result: OK"
   exit 0
 else
   line
-  printf "  ${R}${W}● BLUE WHALE FAILED TO START${N}\n"
+  printf "  %s%s● BLUE WHALE FAILED TO START%s\n" "$R" "$W" "$N"
   line
   log "Result: Failed"
   exit 1
